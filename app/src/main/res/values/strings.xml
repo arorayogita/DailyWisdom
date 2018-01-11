@@ -1,0 +1,17 @@
+<resources>
+    <string name="app_name">Daily Wisdom</string>
+    <string name="email">Email</string>
+    <string name="username">User Name</string>
+    <string name="password">Password</string>
+    <string name="login">Login</string>
+    <string name="register">Register</string>
+    <string name="forgotpass">Forgot Password</string>
+    <string name="email_can_not_be_empty">Email can\'t be empty</string>
+    <string name="name_can_not_be_empty">Name can\'t be empty</string>
+    <string name="invalid_email">Invalid Email</string>
+    <string name="password_can_not_empty">Password can\'t be empty</string>
+    <string name="password_length">Password length should be greater then 4</string>
+    <string name="backLogin">
+        <u>Back to Login</u>
+    </string>
+</resources>
