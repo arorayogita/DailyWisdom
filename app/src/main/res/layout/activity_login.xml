@@ -57,15 +57,14 @@
             android:hint="Enter email"
             android:inputType="textEmailAddress"
             android:paddingBottom="10dp"
-            android:paddingTop="10dp"
-            android:textColor="@color/colorBlack"
+            android:paddingTop="10dp" android:textColor="@color/colorBlack"
             android:textCursorDrawable="@drawable/cursor_color"
             android:textSize="@dimen/text_small" />
 
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:background="@android:color/darker_gray"
+            android:background="@color/colorGrey"
 
             />
 
@@ -92,14 +91,14 @@
             android:paddingEnd="10dp"
             android:paddingRight="10dp"
             android:paddingTop="10dp"
-            android:textColor="@color/colorBlack"
+
             android:textCursorDrawable="@drawable/cursor_color"
             android:textSize="@dimen/text_small" />
 
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:background="@android:color/darker_gray"
+            android:background="@color/colorGrey"
 
             />
 

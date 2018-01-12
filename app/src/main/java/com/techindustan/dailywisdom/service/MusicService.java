@@ -25,7 +25,7 @@ import com.techindustan.dailywisdom.utils.LineBarVisualizer;
  * Created by android on 9/1/18.
  */
 
-public class MusicService extends Service {
+public class MusicService extends Service implements MediaPlayer.OnCompletionListener {
     private MediaPlayer player;
     public static boolean IS_SERVICE_RUNNING = false;
 
@@ -38,17 +38,18 @@ public class MusicService extends Service {
     @Override
     public void onCreate() {
         player = MediaPlayer.create(MusicService.this, R.raw.song);
+        player.setOnCompletionListener(this);
     }
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
 
         if (intent.getAction().equals(Constant.ACTION.STARTFOREGROUND_ACTION)) {
-          //  Toast.makeText(this, "Start Service", Toast.LENGTH_SHORT).show();
+            //  Toast.makeText(this, "Start Service", Toast.LENGTH_SHORT).show();
             Log.i("tag", "Received Start Foreground Intent ");
             showNotification();
         } else if (intent.getAction().equals(Constant.ACTION.STOPFOREGROUND_ACTION)) {
-          //  Toast.makeText(this, "Stop Service", Toast.LENGTH_SHORT).show();
+            //  Toast.makeText(this, "Stop Service", Toast.LENGTH_SHORT).show();
             Log.i("tag", "Received Stop Foreground Intent");
             stopForeground(true);
             if (player != null) {
@@ -82,7 +83,7 @@ public class MusicService extends Service {
 
     private void showNotification() {
         player.start();
-       // TodaysAudioActivity.lineBarVisualizer.setPlayer(player);
+        // TodaysAudioActivity.lineBarVisualizer.setPlayer(player);
         MainActivity.lineBarVisualizer.setPlayer(player);
         Intent notificationIntent = new Intent(this, MainActivity.class);
         notificationIntent.setAction(Constant.ACTION.MAIN_ACTION);
@@ -116,5 +117,11 @@ public class MusicService extends Service {
         startForeground(Constant.NOTIFICATION_ID.FOREGROUND_SERVICE,
                 notification);
     }
+
+    @Override
+    public void onCompletion(MediaPlayer mp) {
+        MainActivity.ivPlay.setImageResource(R.drawable.play_icon);
+    }
+
 }
 
