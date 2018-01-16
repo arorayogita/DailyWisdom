@@ -28,7 +28,7 @@
             android:layout_marginTop="20dp"
             android:text="@string/register"
             android:textAllCaps="true"
-            android:textColor="@color/colorBlack"
+            android:textColor="@color/colortextgreymainheading"
             android:textSize="@dimen/text_heading" />
     </LinearLayout>
 
@@ -43,7 +43,8 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/username" />
+            android:text="@string/username"
+            android:textColor="@color/colortext" />
 
 
         <EditText
@@ -55,9 +56,10 @@
             android:ems="10"
             android:hint="Enter username"
             android:inputType="textEmailAddress"
+            android:textColorHint="@color/coloredittextgrey"
             android:paddingBottom="10dp"
             android:paddingTop="10dp"
-            android:textColor="@color/colorBlack"
+            android:textColor="@color/coloredittextgrey"
             android:textCursorDrawable="@drawable/cursor_color"
             android:textSize="@dimen/text_small" />
 
@@ -73,7 +75,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:text="@string/email" />
+            android:text="@string/email"
+            android:textColor="@color/colortext" />
 
 
         <EditText
@@ -86,8 +89,9 @@
             android:hint="Enter email"
             android:inputType="textEmailAddress"
             android:paddingBottom="10dp"
+            android:textColorHint="@color/coloredittextgrey"
             android:paddingTop="10dp"
-            android:textColor="@color/colorBlack"
+            android:textColor="@color/coloredittextgrey"
             android:textCursorDrawable="@drawable/cursor_color"
             android:textSize="@dimen/text_small" />
 
@@ -104,7 +108,8 @@
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:layout_marginTop="10dp"
-            android:text="@string/password" />
+            android:text="@string/password"
+            android:textColor="@color/colortext" />
 
 
         <EditText
@@ -119,9 +124,10 @@
             android:inputType="textPassword"
             android:paddingBottom="10dp"
             android:paddingEnd="10dp"
+            android:textColorHint="@color/coloredittextgrey"
             android:paddingRight="10dp"
             android:paddingTop="10dp"
-            android:textColor="@color/colorBlack"
+            android:textColor="@color/coloredittextgrey"
             android:textCursorDrawable="@drawable/cursor_color"
             android:textSize="@dimen/text_small" />
 
@@ -142,6 +148,7 @@
             android:background="@color/colorTheme"
             android:text="@string/register"
             android:textAllCaps="false"
+            android:stateListAnimator="@null"
             android:textColor="@android:color/white"
             android:textSize="@dimen/text_large" />
 
@@ -163,7 +170,7 @@
             android:padding="10dp"
             android:text="@string/backLogin"
             android:textAllCaps="false"
-            android:textColor="@color/colorTheme"
+            android:textColor="@color/colorThemetext"
             android:textSize="@dimen/text_small" />
     </LinearLayout>
 

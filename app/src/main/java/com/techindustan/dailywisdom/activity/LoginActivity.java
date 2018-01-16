@@ -1,10 +1,16 @@
 package com.techindustan.dailywisdom.activity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.text.method.HideReturnsTransformationMethod;
+import android.text.method.PasswordTransformationMethod;
+import android.util.Patterns;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.techindustan.dailywisdom.R;
@@ -12,6 +18,7 @@ import com.techindustan.dailywisdom.R;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -25,16 +32,20 @@ public class LoginActivity extends AppCompatActivity {
     TextView tvRegister;
     @BindView(R.id.tvForgotPass)
     TextView tvForgotPass;
+    @BindView(R.id.ivShowPass)
+    ImageButton ivShowPass;
+    private Boolean isClicked = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         ButterKnife.bind(this);
-        etEmail.setText("yogita@gmail.com");
+        etEmail.setText("johndoe@gmail.com");
         etPassword.setText("12345");
 
     }
+
 
     @OnClick(R.id.btnLogin)
     public void Login() {
@@ -51,7 +62,6 @@ public class LoginActivity extends AppCompatActivity {
         Intent intent = new Intent(LoginActivity.this, RegisterActivity.class);
         startActivity(intent);
 
-
     }
 
     @OnClick(R.id.tvForgotPass)
@@ -66,7 +76,7 @@ public class LoginActivity extends AppCompatActivity {
             etEmail.requestFocus();
             etEmail.setError(getResources().getString(R.string.email_can_not_be_empty));
             return false;
-        } else if (!android.util.Patterns.EMAIL_ADDRESS.matcher(etEmail.getText().toString()).matches()) {
+        } else if (!Patterns.EMAIL_ADDRESS.matcher(etEmail.getText().toString()).matches()) {
             etEmail.requestFocus();
             etEmail.setError(getResources().getString(R.string.invalid_email));
             return false;
@@ -83,4 +93,33 @@ public class LoginActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    public void onBackPressed() {
+        finish();
+        super.onBackPressed();
+
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+    }
+
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
+    }
+
+    @OnClick(R.id.ivShowPass)
+    public void onViewClicked() {
+        isClicked = isClicked ? false : true;
+        if (isClicked) {
+            etPassword.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
+        } else {
+            etPassword.setTransformationMethod(PasswordTransformationMethod.getInstance());
+
+
+
+        }
+    }
 }

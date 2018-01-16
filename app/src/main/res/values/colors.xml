@@ -5,7 +5,11 @@
     <color name="colorAccent">#FF4081</color>
     <color name="colorBlack">#000000</color>
     <color name="colorWhite">#ffffff</color>
-    <color name="colorGrey">#dcdada</color>
-    <color name="colorTheme">#ec677a</color>
+    <color name="colorGrey">#f2f2f2</color>
+    <color name="colorTheme">#61cbb4</color>
+    <color name="colorThemetext">#32a48b</color>
+    <color name="colortext">#c1c8d2</color>
+    <color name="coloredittextgrey">#929ba6</color>
+    <color name="colortextgreymainheading">#6d6d6d</color>
 
 </resources>

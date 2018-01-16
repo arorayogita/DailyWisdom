@@ -1,4 +1,4 @@
-package com.techindustan.dailywisdom.activity;
+package com.techindustan.dailywisdom.fragment;
 
 import android.app.DatePickerDialog;
 import android.app.Dialog;
@@ -6,17 +6,20 @@ import android.app.DialogFragment;
 import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
+import android.support.v4.app.Fragment;
 import android.text.format.DateFormat;
-import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.DatePicker;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.techindustan.dailywisdom.R;
+import com.techindustan.dailywisdom.activity.LoginActivity;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -26,23 +29,32 @@ import java.util.Date;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import butterknife.Unbinder;
 
-public class DayTimeActivity extends AppCompatActivity {
+/**
+ * Created by android on 16/1/18.
+ */
 
-    @BindView(R.id.tvHeader)
-    TextView tvHeader;
+public class DayTimeFragment extends Fragment {
+    Unbinder unbinder;
+    View v;
     public static TextView tvChooseDay;
     public static TextView tvChooseTime;
+    @BindView(R.id.ivBack)
+    ImageView ivBack;
+    @BindView(R.id.ivSignOut)
+
+    ImageView ivSignOut;
     @BindView(R.id.btnSave)
     Button btnSave;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_day_time);
-        tvChooseDay = (TextView) findViewById(R.id.tvChooseDay);
-        tvChooseTime = (TextView) findViewById(R.id.tvChooseTime);
-        ButterKnife.bind(this);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        v = inflater.inflate(R.layout.fragment_day_time, container, false);
+        unbinder = ButterKnife.bind(this, v);
+        tvChooseDay = (TextView) v.findViewById(R.id.tvChooseDay);
+        tvChooseTime = (TextView) v.findViewById(R.id.tvChooseTime);
         tvChooseDay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -55,16 +67,15 @@ public class DayTimeActivity extends AppCompatActivity {
                 openTimePicker();
             }
         });
-
+        return v;
     }
-
 
     public void openDatePicker() {
         DialogFragment newFragment = new DatePickerFragment();
         Bundle b = new Bundle();
         b.putString("date", tvChooseDay.getText().toString());
         newFragment.setArguments(b);
-        newFragment.show(getFragmentManager(), "datePicker");
+        newFragment.show(getActivity().getFragmentManager(), "datePicker");
 
     }
 
@@ -73,16 +84,33 @@ public class DayTimeActivity extends AppCompatActivity {
         Bundle b = new Bundle();
         b.putString("time", tvChooseTime.getText().toString());
         newFragment.setArguments(b);
-        newFragment.show(getFragmentManager(), "timePicker");
+        newFragment.show(getActivity().getFragmentManager(), "timePicker");
 
     }
 
-    @OnClick(R.id.btnSave)
-    public void saveDetails() {
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        unbinder.unbind();
 
-        Toast.makeText(this, "Details Saved Successfully", Toast.LENGTH_SHORT).show();
-        finish();
+    }
 
+    @OnClick({R.id.ivBack, R.id.ivSignOut, R.id.btnSave})
+    public void onViewClicked(View view) {
+        switch (view.getId()) {
+            case R.id.ivBack:
+                getFragmentManager().popBackStack();
+                break;
+            case R.id.ivSignOut:
+                Intent intent = new Intent(getActivity(), LoginActivity.class);
+                startActivity(intent);
+                getActivity().finish();
+                break;
+            case R.id.btnSave:
+                Toast.makeText(getActivity(), "Details Saved Successfully", Toast.LENGTH_SHORT).show();
+                getFragmentManager().popBackStack();
+                break;
+        }
     }
 
     public static class DatePickerFragment extends DialogFragment

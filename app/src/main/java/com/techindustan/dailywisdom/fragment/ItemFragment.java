@@ -16,6 +16,7 @@ import android.widget.TextView;
 
 import com.techindustan.dailywisdom.R;
 import com.techindustan.dailywisdom.activity.AudioListActivity;
+import com.techindustan.dailywisdom.activity.MainActivity;
 import com.techindustan.dailywisdom.utils.CarouselLinearLayout;
 
 /**
@@ -34,7 +35,7 @@ public class ItemFragment extends Fragment {
     private int[] imageArray = new int[]{R.drawable.audio_prev, R.drawable.audio_icon,
             R.drawable.audio_next};
 
-    public static Fragment newInstance(AudioListActivity context, int pos, float scale) {
+    public static Fragment newInstance(MainActivity context, int pos, float scale) {
         Bundle b = new Bundle();
         b.putInt(POSITON, pos);
         b.putFloat(SCALE, scale);

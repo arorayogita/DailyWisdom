@@ -28,7 +28,7 @@
             android:layout_marginTop="30dp"
             android:text="@string/login"
             android:textAllCaps="true"
-            android:textColor="@color/colorBlack"
+            android:textColor="@color/colortextgreymainheading"
             android:textSize="@dimen/text_heading" />
     </LinearLayout>
 
@@ -44,7 +44,8 @@
             android:id="@+id/textView2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/email" />
+            android:text="@string/email"
+            android:textColor="@color/colortext" />
 
 
         <EditText
@@ -57,7 +58,9 @@
             android:hint="Enter email"
             android:inputType="textEmailAddress"
             android:paddingBottom="10dp"
-            android:paddingTop="10dp" android:textColor="@color/colorBlack"
+            android:paddingTop="10dp"
+            android:textColor="@color/coloredittextgrey"
+            android:textColorHint="@color/coloredittextgrey"
             android:textCursorDrawable="@drawable/cursor_color"
             android:textSize="@dimen/text_small" />
 
@@ -74,26 +77,43 @@
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:layout_marginTop="20dp"
-            android:text="@string/password" />
+            android:text="@string/password"
+            android:textColor="@color/colortext" />
 
-
-        <EditText
-            android:id="@+id/etPassword"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@android:color/transparent"
-            android:drawablePadding="10dp"
-            android:drawableRight="@drawable/password_icn"
-            android:ems="10"
-            android:hint="Enter Password"
-            android:inputType="textPassword"
-            android:paddingBottom="10dp"
-            android:paddingEnd="10dp"
-            android:paddingRight="10dp"
-            android:paddingTop="10dp"
+            android:orientation="horizontal">
 
-            android:textCursorDrawable="@drawable/cursor_color"
-            android:textSize="@dimen/text_small" />
+            <EditText
+                android:id="@+id/etPassword"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@android:color/transparent"
+                android:ems="10"
+                android:hint="Enter Password"
+                android:inputType="textPassword"
+                android:paddingBottom="10dp"
+                android:paddingEnd="10dp"
+                android:paddingRight="10dp"
+                android:paddingTop="10dp"
+                android:textColor="@color/coloredittextgrey"
+                android:textColorHint="@color/coloredittextgrey"
+
+                android:textCursorDrawable="@drawable/cursor_color"
+                android:textSize="@dimen/text_small" />
+
+            <ImageButton
+                android:id="@+id/ivShowPass"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginLeft="-30dp"
+                android:background="@android:color/transparent"
+                android:padding="10dp"
+                android:src="@drawable/password_icn" />
+        </LinearLayout>
+
 
         <View
             android:layout_width="match_parent"
@@ -120,6 +140,7 @@
             android:layout_marginRight="20dp"
             android:layout_marginTop="20dp"
             android:background="@color/colorTheme"
+            android:stateListAnimator="@null"
             android:text="@string/login"
             android:textAllCaps="false"
             android:textColor="@android:color/white"
@@ -142,7 +163,7 @@
             android:paddingTop="10dp"
             android:text="Dont Have Account?"
             android:textAllCaps="false"
-            android:textColor="@color/colorBlack"
+            android:textColor="@color/colortextgreymainheading"
             android:textSize="@dimen/text_small" />
 
         <TextView

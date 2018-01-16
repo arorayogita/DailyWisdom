@@ -1,5 +1,6 @@
 package com.techindustan.dailywisdom.activity;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Patterns;
@@ -13,6 +14,7 @@ import com.techindustan.dailywisdom.R;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 public class RegisterActivity extends AppCompatActivity {
 
@@ -74,5 +76,10 @@ public class RegisterActivity extends AppCompatActivity {
 
         return true;
 
+    }
+
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
     }
 }

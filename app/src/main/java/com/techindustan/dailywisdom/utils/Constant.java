@@ -1,4 +1,4 @@
-package com.techindustan.dailywisdom.activity;
+package com.techindustan.dailywisdom.utils;
 
 /**
  * Created by android on 9/1/18.

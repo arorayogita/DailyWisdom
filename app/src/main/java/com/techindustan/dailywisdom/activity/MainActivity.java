@@ -1,30 +1,36 @@
 package com.techindustan.dailywisdom.activity;
 
+import android.content.Context;
 import android.content.Intent;
-import android.media.MediaMetadataRetriever;
+import android.media.MediaPlayer;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
+import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.techindustan.dailywisdom.R;
+import com.techindustan.dailywisdom.adapter.CarouselPagerAdapter;
+import com.techindustan.dailywisdom.fragment.AudioHistoryFragment;
+import com.techindustan.dailywisdom.fragment.SettingsFragment;
 import com.techindustan.dailywisdom.service.MusicService;
+import com.techindustan.dailywisdom.utils.Constant;
 import com.techindustan.dailywisdom.utils.LineBarVisualizer;
+import com.techindustan.dailywisdom.utils.Utilities;
 
 import java.io.BufferedInputStream;
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.URL;
 import java.net.URLConnection;
@@ -34,8 +40,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-
-import static android.provider.Telephony.Mms.Part.FILENAME;
+import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -44,20 +49,39 @@ public class MainActivity extends AppCompatActivity {
     ImageView ivPreviousAudioMessages;
     @BindView(R.id.ivSettings)
     ImageView ivSettings;
-
     Intent intent;
-    @BindView(R.id.tvDayTime)
-    TextView tvDayTime;
+
     Intent startIntent;
     public static LineBarVisualizer lineBarVisualizer;
+    public TextView tvSongDuration;
 
     public static ImageView ivPlay;
+    @BindView(R.id.ivaudio)
+    ImageView ivaudio;
+    @BindView(R.id.myviewpager)
+    ViewPager myviewpager;
+    @BindView(R.id.ivPrev)
+    ImageView ivPrev;
+    @BindView(R.id.ivNext)
+    ImageView ivNext;
+    @BindView(R.id.fragment)
+    FrameLayout fragment;
     private String downloadAudioPath;
     private String urlDownloadLink = "";
 
     private ProgressBar progressbar;
     String filename;
-
+    List<String> musicList;
+    String type;
+    public ViewPager pager;
+    public CarouselPagerAdapter adapter;
+    public static int count = 3; //ViewPager items size
+    /**
+     * You shouldn't define first page = 0.
+     * Let define firstpage = 'number viewpager size' to make endless carousel
+     */
+    public static int FIRST_PAGE = 3;
+    public final static int LOOPS = 1000;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,8 +89,11 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
         lineBarVisualizer = findViewById(R.id.visualizer);
+        pager = (ViewPager) findViewById(R.id.myviewpager);
+
+        tvSongDuration = findViewById(R.id.tvSongDuration);
         ivPlay = findViewById(R.id.ivPlay);
-        lineBarVisualizer.setColor(ContextCompat.getColor(this, R.color.colorGrey));
+        lineBarVisualizer.setColor(ContextCompat.getColor(this, R.color.colortext));
         lineBarVisualizer.setDensity(70);
         downloadAudioPath = Environment.getExternalStorageDirectory().getAbsolutePath();
         File audioVoice = new File(downloadAudioPath + File.separator + "voices");
@@ -74,45 +101,66 @@ public class MainActivity extends AppCompatActivity {
             audioVoice.mkdir();
         }
 
+        Bundle bundle = getIntent().getExtras();
+        if (bundle != null) {
+            type = bundle.getString("multiplesongs");
+
+            if (type.matches("multiplesongs")) {
+                ivPrev.setVisibility(View.VISIBLE);
+                ivNext.setVisibility(View.VISIBLE);
+                ivaudio.setVisibility(View.GONE);
+                pager.setVisibility(View.VISIBLE);
+                DisplayMetrics metrics = new DisplayMetrics();
+                getWindowManager().getDefaultDisplay().getMetrics(metrics);
+                int pageMargin = ((metrics.widthPixels / 4) * 2);
+                pager.setPageMargin(-pageMargin);
+                adapter = new CarouselPagerAdapter(this, this.getSupportFragmentManager());
+                pager.setAdapter(adapter);
+                adapter.notifyDataSetChanged();
+                pager.addOnPageChangeListener(adapter);
+                pager.setCurrentItem(FIRST_PAGE);
+                pager.setOffscreenPageLimit(3);
+            }
+
+        }
         Log.e("downloadAudioPath", "" + downloadAudioPath);
 
         progressbar = (ProgressBar) findViewById(R.id.progress_view);
 
-        urlDownloadLink = "https://files1.mp3oye.com/stream/7403911c09502ad5fefdd1dc523de7a5";
+        urlDownloadLink = "https://mp3oye.com/stream/20bbc370c9872271f2b1df1350599bee";
+        filename = extractFilename();
+        MediaPlayer player = MediaPlayer.create(MainActivity.this, R.raw.red_e);
+        tvSongDuration.setText(Utilities.milliSecondsToTimer(player.getDuration()));
+/*
+        downloadAudioPath = downloadAudioPath + File.separator + "voices" + File.separator + filename;
+        DownloadFile downloadAudioFile = new DownloadFile();
 
-        String[] items = {"https://mp3oye.com/stream/4376742b719bf9a660a56e3ba8e7c360", "https://files1.mp3oye.com/stream/7403911c09502ad5fefdd1dc523de7a5", "https://mp3oye.com/stream/20bbc370c9872271f2b1df1350599bee", "https://files1.mp3oye.com/stream/951c71e91dba03dec0387770822b2979", "https://mp3oye.com/stream/373f5e056e1c31a02d6b4f3eba53bdf7"};
+        downloadAudioFile.execute(urlDownloadLink, downloadAudioPath);
+*/
 
     }
 
 
     @OnClick(R.id.ivPreviousAudioMessages)
     public void openAudioHistoryMessages() {
-        intent = new Intent(MainActivity.this, AudioHistoryActivity.class);
-        startActivity(intent);
-        filename = extractFilename();
-        Toast.makeText(this, "filename" + filename, Toast.LENGTH_SHORT).show();
-        downloadAudioPath = downloadAudioPath + File.separator + "voices" + File.separator + filename;
+        //  readFromFile();
+        Bundle bundle = new Bundle();
+        AudioHistoryFragment audioHistoryFragment = new AudioHistoryFragment();
+        bundle.putStringArrayList("musicList", (ArrayList<String>) musicList);
+        audioHistoryFragment.setArguments(bundle);
+        getSupportFragmentManager().beginTransaction().replace(R.id.fragment, audioHistoryFragment).addToBackStack(null).commit();
+      /*  Intent intent = new Intent(MainActivity.this, PlayListActivity.class);
+        startActivity(intent);*/
 
-        DownloadFile downloadAudioFile = new DownloadFile();
-        downloadAudioFile.execute(urlDownloadLink, downloadAudioPath);
-        // readFromFile();
     }
 
     @OnClick(R.id.ivSettings)
     public void openSettings() {
-        intent = new Intent(MainActivity.this, SettingsActivity.class);
-        startActivity(intent);
-        readFromFile();
-    }
-
-
-    @OnClick(R.id.tvDayTime)
-    public void openDayTimeScreen() {
-        intent = new Intent(MainActivity.this, DayTimeActivity.class);
-        startActivity(intent);
+        getSupportFragmentManager().beginTransaction().replace(R.id.fragment, new SettingsFragment()).addToBackStack(null).commit();
 
 
     }
+
 
     @OnClick(R.id.ivPlay)
     public void playRingtone() {
@@ -188,6 +236,7 @@ public class MainActivity extends AppCompatActivity {
         if (urlDownloadLink.contains("/")) {
             int dotPosition = urlDownloadLink.lastIndexOf("/");
             newFilename = urlDownloadLink.substring(dotPosition + 1, urlDownloadLink.length());
+            newFilename = newFilename + ".mp3";
         } else {
             newFilename = urlDownloadLink;
         }
@@ -227,34 +276,35 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    /*  public void getSongDuration(){
-          MediaMetadataRetriever metaRetriever = new MediaMetadataRetriever();
-          metaRetriever.setDataSource(filePath);
+ /*   public void getSongDuration() {
+        MediaMetadataRetriever metaRetriever = new MediaMetadataRetriever();
+        metaRetriever.setDataSource();
 
-          String out = "";
-          // get mp3 info
+        String out = "";
+        // get mp3 info
 
-          // convert duration to minute:seconds
-          String duration =
-                  metaRetriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_DURATION);
-          Log.v("time", duration);
-          long dur = Long.parseLong(duration);
-          String seconds = String.valueOf((dur % 60000) / 1000);
+        // convert duration to minute:seconds
+        String duration =
+                metaRetriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_DURATION);
+        Log.v("time", duration);
+        long dur = Long.parseLong(duration);
+        String seconds = String.valueOf((dur % 60000) / 1000);
 
-          Log.v("seconds", seconds);
-          String minutes = String.valueOf(dur / 60000);
-          out = minutes + ":" + seconds;
-          if (seconds.length() == 1) {
-              txtTime.setText("0" + minutes + ":0" + seconds);
-          }else {
-              txtTime.setText("0" + minutes + ":" + seconds);
-          }
-          Log.v("minutes", minutes);
-          // close object
-          metaRetriever.release();
-      }*/
-    private String readFromFile() {
-        List<String> musicList = new ArrayList<>();
+        Log.v("seconds", seconds);
+        String minutes = String.valueOf(dur / 60000);
+        out = minutes + ":" + seconds;
+        if (seconds.length() == 1) {
+            tvSongDuration.setText("0" + minutes + ":0" + seconds);
+        } else {
+            tvSongDuration.setText("0" + minutes + ":" + seconds);
+        }
+        Log.v("minutes", minutes);
+        // close object
+        metaRetriever.release();
+    }*/
+
+    private List<String> readFromFile() {
+        musicList = new ArrayList<>();
 
         File fileDirectory = new File(Environment.getExternalStorageDirectory() + "/voices/");
 // lists all the files into an array
@@ -265,11 +315,30 @@ public class MainActivity extends AppCompatActivity {
             for (int ii = 0; ii < dirFiles.length; ii++) {
                 String fileOutput = dirFiles[ii].toString();
                 System.out.println(fileOutput);
-                musicList.add(fileOutput);
-                Log.e("file", "" + musicList);
+                String newFilename = "";
+                if (fileOutput.contains("/")) {
+                    int dotPosition = fileOutput.lastIndexOf("/");
+                    newFilename = fileOutput.substring(dotPosition + 1, fileOutput.length());
+                } else {
+                    newFilename = fileOutput;
+                }
+                musicList.add(newFilename);
+                Log.e("file", "" + newFilename);
 
             }
         }
-        return null;
+        return musicList;
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        lineBarVisualizer.setColor(ContextCompat.getColor(this, R.color.colortext));
+        lineBarVisualizer.setDensity(70);
+    }
+
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
     }
 }

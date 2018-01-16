@@ -8,6 +8,7 @@ import android.support.v4.view.ViewPager;
 
 import com.techindustan.dailywisdom.R;
 import com.techindustan.dailywisdom.activity.AudioListActivity;
+import com.techindustan.dailywisdom.activity.MainActivity;
 import com.techindustan.dailywisdom.fragment.ItemFragment;
 import com.techindustan.dailywisdom.utils.CarouselLinearLayout;
 
@@ -21,11 +22,12 @@ public class CarouselPagerAdapter extends FragmentPagerAdapter implements ViewPa
     public final static float SMALL_SCALE = 0.7f;
     public final static float DIFF_SCALE = BIG_SCALE - SMALL_SCALE;
 
-    private AudioListActivity context;
+    private MainActivity context;
     private FragmentManager fragmentManager;
     private float scale;
 
-    public CarouselPagerAdapter(AudioListActivity context, FragmentManager fm) {
+
+    public CarouselPagerAdapter(MainActivity context, FragmentManager fm) {
         super(fm);
         this.fragmentManager = fm;
         this.context = context;
@@ -35,12 +37,12 @@ public class CarouselPagerAdapter extends FragmentPagerAdapter implements ViewPa
     public Fragment getItem(int position) {
         // make the first pager bigger than others
         try {
-            if (position == AudioListActivity.FIRST_PAGE)
+            if (position == MainActivity.FIRST_PAGE)
                 scale = BIG_SCALE;
             else
                 scale = SMALL_SCALE;
 
-            position = position % AudioListActivity.count;
+            position = position % MainActivity.count;
 
         } catch (Exception e) {
             e.printStackTrace();

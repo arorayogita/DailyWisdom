@@ -34,7 +34,7 @@ abstract public class BaseVisualizer extends View {
     protected byte[] bytes;
     protected Paint paint;
     protected Visualizer visualizer;
-    protected int color = Color.BLUE;
+    protected int color = Color.GRAY;
 
     public BaseVisualizer(Context context) {
         super(context);

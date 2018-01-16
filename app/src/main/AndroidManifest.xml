@@ -3,15 +3,16 @@
     package="com.techindustan.dailywisdom">
 
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
-    <uses-permission android:name="android.permission.INTERNET"></uses-permission>
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"></uses-permission>
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"></uses-permission>
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <application
+        android:name=".utils.AppController"
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@mipmap/app_icon"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
+        android:roundIcon="@mipmap/app_icon"
         android:supportsRtl="true"
         android:theme="@style/AppTheme.NoActionBar">
         <activity
@@ -25,7 +26,8 @@
         </activity>
         <activity
             android:name=".activity.LoginActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            />
         <activity
             android:name=".activity.RegisterActivity"
             android:screenOrientation="portrait" />
@@ -34,26 +36,18 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".activity.MainActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".activity.SettingsActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".activity.TodaysAudioActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".activity.AudioHistoryActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".activity.DayTimeActivity"
-            android:screenOrientation="portrait" />
-
+            android:screenOrientation="portrait"
+            />
 
         <service
             android:name=".service.MusicService"
             android:enabled="true" />
 
-        <activity android:name=".activity.AudioListActivity"></activity>
+        <activity android:name=".activity.AudioListActivity" />
+        <activity
+            android:name=".activity.PlayListActivity"
+            android:screenOrientation="portrait"
+            />
     </application>
 
 </manifest>

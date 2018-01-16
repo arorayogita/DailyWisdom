@@ -16,10 +16,10 @@ import android.widget.RemoteViews;
 import android.widget.Toast;
 
 import com.techindustan.dailywisdom.R;
-import com.techindustan.dailywisdom.activity.Constant;
+import com.techindustan.dailywisdom.utils.Constant;
 import com.techindustan.dailywisdom.activity.MainActivity;
-import com.techindustan.dailywisdom.activity.TodaysAudioActivity;
-import com.techindustan.dailywisdom.utils.LineBarVisualizer;
+
+import java.io.IOException;
 
 /**
  * Created by android on 9/1/18.
@@ -37,7 +37,7 @@ public class MusicService extends Service implements MediaPlayer.OnCompletionLis
 
     @Override
     public void onCreate() {
-        player = MediaPlayer.create(MusicService.this, R.raw.song);
+        player = MediaPlayer.create(MusicService.this, R.raw.red_e);
         player.setOnCompletionListener(this);
     }
 
@@ -84,7 +84,11 @@ public class MusicService extends Service implements MediaPlayer.OnCompletionLis
     private void showNotification() {
         player.start();
         // TodaysAudioActivity.lineBarVisualizer.setPlayer(player);
+        MainActivity.lineBarVisualizer.setColor(ContextCompat.getColor(this, R.color.colortext));
+        MainActivity.lineBarVisualizer.setDensity(70);
         MainActivity.lineBarVisualizer.setPlayer(player);
+
+
         Intent notificationIntent = new Intent(this, MainActivity.class);
         notificationIntent.setAction(Constant.ACTION.MAIN_ACTION);
         notificationIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK
