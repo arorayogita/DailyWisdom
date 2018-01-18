@@ -27,7 +27,6 @@ import butterknife.Unbinder;
 
 public class AudioHistoryFragment extends Fragment {
     AudioHistoryAdapter mAdapter;
-    ArrayList<String> musicList = new ArrayList<>();
     @BindView(R.id.ivBack)
     ImageView ivBack;
     @BindView(R.id.ivSettings)
@@ -61,9 +60,7 @@ public class AudioHistoryFragment extends Fragment {
             songsListData.add(song);
 
         }
-        if (bundle != null) {
-            musicList = bundle.getStringArrayList("musicList");
-        }
+
         mAdapter = new AudioHistoryAdapter(getActivity(), songsListData);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(mLayoutManager);

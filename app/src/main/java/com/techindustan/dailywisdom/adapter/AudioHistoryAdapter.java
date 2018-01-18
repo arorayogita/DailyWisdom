@@ -11,7 +11,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.techindustan.dailywisdom.R;
-import com.techindustan.dailywisdom.activity.AudioListActivity;
 import com.techindustan.dailywisdom.activity.MainActivity;
 
 import java.util.ArrayList;
@@ -41,13 +40,15 @@ public class AudioHistoryAdapter extends RecyclerView.Adapter {
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         MyViewHolder holder1 = (MyViewHolder) holder;
-        //  holder1.title.setText(musicList.get(position).get("songTitle"));
+        holder1.title.setText(musicList.get(position).get("songTitle"));
         final int songIndex = position;
         holder1.llMain.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(context, MainActivity.class);
                 intent.putExtra("multiplesongs", "multiplesongs");
+                intent.putExtra("songIndex", songIndex);
+                intent.putExtra("songlist",musicList);
                 context.startActivity(intent);
             }
         });
@@ -57,7 +58,7 @@ public class AudioHistoryAdapter extends RecyclerView.Adapter {
 
     @Override
     public int getItemCount() {
-        return 20;
+        return musicList.size();
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
@@ -71,4 +72,5 @@ public class AudioHistoryAdapter extends RecyclerView.Adapter {
 
         }
     }
+
 }

@@ -2,7 +2,6 @@ package com.techindustan.dailywisdom.fragment;
 
 import android.annotation.SuppressLint;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -15,7 +14,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.techindustan.dailywisdom.R;
-import com.techindustan.dailywisdom.activity.AudioListActivity;
 import com.techindustan.dailywisdom.activity.MainActivity;
 import com.techindustan.dailywisdom.utils.CarouselLinearLayout;
 

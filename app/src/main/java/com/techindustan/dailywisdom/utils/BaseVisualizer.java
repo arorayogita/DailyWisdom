@@ -24,12 +24,6 @@ import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.view.View;
 
-/**
- * Base class that contains common implementation for all
- * visualizers.
- * Created by gautam chibde on 28/10/17.
- */
-
 abstract public class BaseVisualizer extends View {
     protected byte[] bytes;
     protected Paint paint;
@@ -71,7 +65,6 @@ abstract public class BaseVisualizer extends View {
     public void setPlayer(MediaPlayer mediaPlayer) {
         visualizer = new Visualizer(mediaPlayer.getAudioSessionId());
         visualizer.setCaptureSize(Visualizer.getCaptureSizeRange()[1]);
-
         visualizer.setDataCaptureListener(new Visualizer.OnDataCaptureListener() {
             @Override
             public void onWaveFormDataCapture(Visualizer visualizer, byte[] bytes,

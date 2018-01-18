@@ -26,8 +26,7 @@
         </activity>
         <activity
             android:name=".activity.LoginActivity"
-            android:screenOrientation="portrait"
-            />
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activity.RegisterActivity"
             android:screenOrientation="portrait" />
@@ -36,18 +35,12 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".activity.MainActivity"
-            android:screenOrientation="portrait"
-            />
+            android:screenOrientation="portrait" />
 
         <service
-            android:name=".service.MusicService"
+            android:name=".service.MusicBoundService"
             android:enabled="true" />
 
-        <activity android:name=".activity.AudioListActivity" />
-        <activity
-            android:name=".activity.PlayListActivity"
-            android:screenOrientation="portrait"
-            />
     </application>
 
 </manifest>

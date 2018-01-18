@@ -7,7 +7,6 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 
 import com.techindustan.dailywisdom.R;
-import com.techindustan.dailywisdom.activity.AudioListActivity;
 import com.techindustan.dailywisdom.activity.MainActivity;
 import com.techindustan.dailywisdom.fragment.ItemFragment;
 import com.techindustan.dailywisdom.utils.CarouselLinearLayout;
@@ -54,7 +53,8 @@ public class CarouselPagerAdapter extends FragmentPagerAdapter implements ViewPa
     public int getCount() {
         int count = 0;
         try {
-            count = AudioListActivity.count * AudioListActivity.LOOPS;
+            // count = MainActivity.count * MainActivity.LOOPS;
+            count = 3;
         } catch (Exception e) {
             // TODO: handle exception
             e.printStackTrace();
@@ -68,7 +68,6 @@ public class CarouselPagerAdapter extends FragmentPagerAdapter implements ViewPa
             if (positionOffset >= 0f && positionOffset <= 1f) {
                 CarouselLinearLayout cur = getRootView(position);
                 CarouselLinearLayout next = getRootView(position + 1);
-
                 cur.setScaleBoth(BIG_SCALE - DIFF_SCALE * positionOffset);
                 next.setScaleBoth(SMALL_SCALE + DIFF_SCALE * positionOffset);
             }
@@ -94,6 +93,6 @@ public class CarouselPagerAdapter extends FragmentPagerAdapter implements ViewPa
     }
 
     private String getFragmentTag(int position) {
-        return "android:switcher:" + context.pager.getId() + ":" + position;
+        return "android:switcher:" + context.myViewPager.getId() + ":" + position;
     }
 }
