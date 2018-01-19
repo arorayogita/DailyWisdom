@@ -23,10 +23,12 @@ import java.util.HashMap;
 public class AudioHistoryAdapter extends RecyclerView.Adapter {
     Context context;
     ArrayList<HashMap<String, String>> musicList;
+    SonglistListener songlistListener;
 
     public AudioHistoryAdapter(FragmentActivity activity, ArrayList<HashMap<String, String>> musicList) {
         this.context = activity;
         this.musicList = musicList;
+        songlistListener=(SonglistListener)activity;
     }
 
     @Override
@@ -38,18 +40,19 @@ public class AudioHistoryAdapter extends RecyclerView.Adapter {
     }
 
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+    public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
         MyViewHolder holder1 = (MyViewHolder) holder;
         holder1.title.setText(musicList.get(position).get("songTitle"));
         final int songIndex = position;
         holder1.llMain.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(context, MainActivity.class);
+                /*Intent intent = new Intent(context, MainActivity.class);
                 intent.putExtra("multiplesongs", "multiplesongs");
                 intent.putExtra("songIndex", songIndex);
                 intent.putExtra("songlist",musicList);
-                context.startActivity(intent);
+                context.startActivity(intent);*/
+                songlistListener.onSongSelected(musicList,position);
             }
         });
 
@@ -71,6 +74,9 @@ public class AudioHistoryAdapter extends RecyclerView.Adapter {
             llMain = (LinearLayout) view.findViewById(R.id.llMain);
 
         }
+    }
+    public interface SonglistListener{
+        void onSongSelected(ArrayList<HashMap<String, String>> musicList,int position);
     }
 
 }

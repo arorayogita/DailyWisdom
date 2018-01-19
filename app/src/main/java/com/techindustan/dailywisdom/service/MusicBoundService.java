@@ -101,6 +101,14 @@ public class MusicBoundService extends Service implements MediaPlayer.OnCompleti
         return player != null && player.isPlaying();
     }
 
+    public int getProgress() {
+        if (player != null && player.isPlaying()) {
+            player.getCurrentPosition();
+            return player.getCurrentPosition();
+        }
+        return 0;
+    }
+
     public MediaPlayer getPlayer() {
         return player;
     }
@@ -120,11 +128,19 @@ public class MusicBoundService extends Service implements MediaPlayer.OnCompleti
         player.reset();
         return false;
     }
-    public void resetPlayer()
-    {
-        length=0;
+
+    public void resetPlayer() {
+        length = 0;
         player.stop();
         player.reset();
+    }
+    public int getDuration()
+    {
+        if(player!=null&&player.isPlaying())
+        {
+            return player.getDuration();
+        }
+        return 0;
     }
 
 
@@ -136,16 +152,15 @@ public class MusicBoundService extends Service implements MediaPlayer.OnCompleti
                     //player.prepare();
                     player.start();
                 } else {*/
-                if(length>0)
-                {
+                if (length > 0) {
                     player.seekTo(length);
                     player.start();
-                }else {
+                } else {
                     player.setDataSource(songsList.get(songIndex).get("songPath"));
                     player.prepare();
                     player.start();
                 }
-               // }
+                // }
             } else {
                 Toast.makeText(this, "Starting player please wait..", Toast.LENGTH_SHORT).show();
             }
@@ -170,10 +185,12 @@ public class MusicBoundService extends Service implements MediaPlayer.OnCompleti
     public void playNext() {
         resetPlayer();
         // check if next song is there or not
-        if (songsList.size()>0 && songIndex < songsList.size()-1) {
+        if (songsList.size() > 0 && songIndex < songsList.size() - 1) {
             songIndex = songIndex + 1;
             playSong(songIndex);
         } else {
+            resetPlayer();
+            playSong(songIndex);
             Toast.makeText(this, "End of the playlist", Toast.LENGTH_SHORT).show();
         }
 
@@ -183,14 +200,15 @@ public class MusicBoundService extends Service implements MediaPlayer.OnCompleti
         return songIndex;
     }
 
+
     public void playPrev() {
         resetPlayer();
         if (songsList.size() > 0 && songIndex > 0) {
             songIndex--;
-            Toast.makeText(this, ""+songIndex, Toast.LENGTH_SHORT).show();
             playSong(songIndex);
         } else {
-            Toast.makeText(this, ""+songIndex, Toast.LENGTH_SHORT).show();
+            resetPlayer();
+            playSong(songIndex);
             Toast.makeText(this, "Already at start of the playlist", Toast.LENGTH_SHORT).show();
         }
 
